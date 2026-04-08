@@ -30,3 +30,25 @@
 
 ### Operational note
 - This log is append-only by default.
+
+## 2026-04-08 — Roadmap Execution Update
+
+### Session context
+- [DECISION] User requested conversion of answers into actionable roadmap/progress artifacts.
+- [DECISION] User requested wave -> tier -> task structure with precise execution planning.
+- [DECISION] User requested commit + push workflow.
+
+### Work completed
+- [DECISION] Created `ROADMAP.md` with wave/tier/task structure and acceptance criteria.
+- [DECISION] Created `PROGRESS.md` with status tracker and reworded clarification queue.
+- [IDEA] Created/normalized `IDEAS.md` entries with date/source/value/target wave fields.
+- [DECISION] Updated this log with structured tags and append-only updates.
+
+### Verification notes
+- [OPEN] `cargo build --workspace --all-features` passed.
+- [OPEN] `cargo clippy --workspace --all-targets --all-features -- -D warnings` passed.
+- [OPEN] `cargo test --workspace --all-features` currently fails in pre-existing `tests/ci_workflow.rs` (CI workflow file lookup at runtime).
+
+### Git notes
+- [DECISION] Committed planning docs as commit `3ad6130`.
+- [OPEN] Push failed due missing GitHub credentials in this environment (terminal prompts disabled).
