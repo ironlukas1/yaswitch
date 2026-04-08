@@ -1,2 +1,35 @@
 # yaswitch
-Theme manager for Wayland-based compositors on Linux.
+
+> **One-liner:** yaswitch makes Wayland theming fast, safe, and scriptable without sacrificing control.
+
+Wayland-first theme manager with transactional applies, rollback safety, wallpaper-aware palette generation, and CLI-first keyboard shortcuts.
+
+## Current Status
+
+Implemented core through:
+- schema validation
+- path sandboxing
+- reason-code contract
+- transaction journal and rollback
+- template engine
+- adapter contract
+- preflight planner
+- executor and report contract
+- wallpaper manager and deterministic palette cache
+- CI baseline
+
+## Quickstart
+
+```bash
+cargo run -- validate-theme tests/fixtures/themes/valid-minimal
+cargo run -- apply --theme tests/fixtures/themes/valid-minimal --dry-run --json
+cargo run -- cycle --compositor sway --json
+cargo run -- install-shortcut --compositor sway
+cargo run -- doctor --json
+```
+
+## Documentation
+
+- Compatibility: `docs/compatibility.md`
+- Shortcuts: `docs/shortcuts.md`
+- Integration snippets: `docs/integration/shortcuts.md`

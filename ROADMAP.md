@@ -21,6 +21,15 @@ Owner: @ironlukas1
 5. Theme cycle is crucial, including shortcut flow.
 6. JSON output should exist for debugging.
 7. GUI-first future is desired (Qt6 / skwd-shell-style direction), not MVP.
+8. Custom config/state directories are out of scope for now (default paths only).
+9. Compatibility tiers are explicitly supported (Tier-1/Tier-2/Tier-3).
+10. Planner owns global validation; adapters own target-specific validation.
+11. Partial themes are valid (apply only listed targets).
+12. Replayable dry-run traces are in scope.
+13. Machine-readable error taxonomy docs are not required now.
+14. Environment fingerprinting in debug mode is in scope.
+15. New features must pass safety criteria first; speed optimization follows.
+16. Canonical value proposition: **"yaswitch makes Wayland theming fast, safe, and scriptable without sacrificing control."**
 
 ## Wave 1 — Core reliability and fast apply/cycle (current focus)
 
@@ -60,6 +69,7 @@ Owner: @ironlukas1
 - [ ] **W1-T2-03: Debug evidence pack (chosen)**
   - `--debug` mode writes structured bundle: command args, env fingerprint, plan, apply report, adapter outcomes, rollback trace.
   - Redact private paths/tokens.
+  - **Acceptance**: fingerprint fields are anonymized and stable for issue triage.
 
 ### Tier 3 (stretch)
 - [ ] **W1-T3-01: Quick docs split refinement** (user docs vs contributor docs)
@@ -122,3 +132,10 @@ Owner: @ironlukas1
 3. **Schema strictness**: unknown top-level keys warn in alpha, fail in beta+.
 4. **Cache policy**: content-hash cache for palette/wallpaper operations with explicit invalidation command.
 5. **Critical failure policy**: hard-fail on compositor-level critical unsupported state, soft-skip on isolated app reload failures.
+6. **CI merge gates**: required on PR = `cargo fmt --check`, `cargo clippy -D warnings`, `cargo test --workspace --all-features`.
+7. **CI runtime budget**: target <= 12 minutes for required PR checks; heavier matrix/perf runs go nightly.
+8. **Release risk policy**:
+   - Alpha: tolerate non-critical bugs, block known safety/data-loss regressions.
+   - Beta: block all known apply/rollback correctness issues; require clean required CI.
+   - RC/stable: only critical fixes, no known regressions.
+9. **Good-first-issue policy**: defer tagging until OSS onboarding starts (not now).

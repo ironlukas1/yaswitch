@@ -52,3 +52,34 @@
 ### Git notes
 - [DECISION] Committed planning docs as commit `3ad6130`.
 - [OPEN] Push failed due missing GitHub credentials in this environment (terminal prompts disabled).
+
+## 2026-04-08 — Clarification Answers Round
+
+### User answers captured
+- [DECISION] Headless/remote support: yes.
+- [DECISION] Custom config/state directories: no.
+- [DECISION] Compatibility tiers: yes.
+- [DECISION] Validation ownership split: planner global checks, adapters target checks.
+- [DECISION] Partial themes allowed (apply listed targets only): yes.
+- [DECISION] Theme pack sharing: yes (theme files in config dir are shareable).
+- [DECISION] Replayable dry-run traces: yes.
+- [DECISION] Machine-readable error taxonomy docs: not needed now.
+- [DECISION] Anonymized environment fingerprinting in debug mode: yes.
+- [DECISION] Safety-first feature policy: if unsafe, reject or iterate until safe; optimize speed after safety.
+
+### Chosen defaults applied (`you choose`)
+- [DECISION] Required CI merge gates: fmt check + clippy (deny warnings) + full test suite.
+- [DECISION] CI runtime budget: 12-minute PR budget for required checks; heavy matrix/nightly jobs deferred.
+- [DECISION] Release risk policy: Alpha allows non-critical bugs, Beta blocks correctness issues, RC/Stable critical-fixes only.
+- [DECISION] Good-first-issue tagging: defer until OSS onboarding phase.
+
+### Open follow-up
+- [DECISION] Value proposition approved as canonical: "yaswitch makes Wayland theming fast, safe, and scriptable without sacrificing control."
+
+## 2026-04-08 — Value Proposition Confirmation
+
+### User confirmation
+- [DECISION] The one-liner is confirmed as official/canonical.
+
+### Next requested step
+- [DECISION] Report what will be done in first iteration before coding starts.
