@@ -21,7 +21,7 @@ fn vscode_adapter_safe_skip_when_restart_disallowed() {
 
     match outcome {
         AdapterOutcome::Skipped { reason } => {
-            assert_eq!(reason, ReasonCode::SkipReloadUnsupported);
+            assert_eq!(reason, ReasonCode::SkipRestartPolicy);
         }
         _ => panic!("expected skipped outcome"),
     }
