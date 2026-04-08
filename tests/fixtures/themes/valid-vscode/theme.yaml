@@ -1,0 +1,27 @@
+schema_version: 1
+theme_name: VSCode Minimal
+palette:
+  base00: "#101010"
+  base01: "#111111"
+  base02: "#121212"
+  base03: "#131313"
+  base04: "#141414"
+  base05: "#f5f5f5"
+  base06: "#f0f0f0"
+  base07: "#ffffff"
+  base08: "#ff5f5f"
+  base09: "#ffaf5f"
+  base0A: "#ffd75f"
+  base0B: "#5fff87"
+  base0C: "#5fffff"
+  base0D: "#5fafff"
+  base0E: "#af87ff"
+  base0F: "#ff87d7"
+targets:
+  vscode:
+    template: "settings.json.template"
+    destination: "settings.json"
+    mode: overwrite
+wallpaper:
+  path: "wallpaper.png"
+  mode: fill

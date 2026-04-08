@@ -78,6 +78,11 @@ pub fn build_preflight_plan(options: &PlannerOptions) -> Result<PreflightPlan, Y
             }
         }
 
+        let is_vscode_target = matches!(
+            target_id.to_ascii_lowercase().as_str(),
+            "vscode" | "vscode-insiders"
+        );
+
         actions.push(PlanAction {
             id: format!("render-{target_id}"),
             target: target_id.clone(),
@@ -86,8 +91,16 @@ pub fn build_preflight_plan(options: &PlannerOptions) -> Result<PreflightPlan, Y
             expected_outcome: format!("render template {}", target.template),
             reason_code: None,
             action_status: ActionStatus::Planned,
-            remediation_note: None,
-            remediation_command: None,
+            remediation_note: if is_vscode_target {
+                Some("VSCode targets may require an application restart to fully apply all theme changes.".to_string())
+            } else {
+                None
+            },
+            remediation_command: if is_vscode_target {
+                Some("Restart VSCode (or VSCode Insiders) after apply if colors did not refresh.".to_string())
+            } else {
+                None
+            },
         });
 
         let apply_risk = match target.mode {
@@ -103,8 +116,16 @@ pub fn build_preflight_plan(options: &PlannerOptions) -> Result<PreflightPlan, Y
             expected_outcome: format!("update {}", target.destination),
             reason_code: None,
             action_status: ActionStatus::Planned,
-            remediation_note: None,
-            remediation_command: None,
+            remediation_note: if is_vscode_target {
+                Some("VSCode targets can require a process restart to guarantee full theme reload.".to_string())
+            } else {
+                None
+            },
+            remediation_command: if is_vscode_target {
+                Some("Run `yaswitch apply --theme <theme-path> --target vscode --dry-run --json` to confirm action details before restart.".to_string())
+            } else {
+                None
+            },
         });
     }
 
