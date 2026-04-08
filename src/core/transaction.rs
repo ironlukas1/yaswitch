@@ -19,6 +19,7 @@ pub struct TransactionJournal {
     pub backup_root: PathBuf,
     pub entries: Vec<JournalEntry>,
     pub committed: bool,
+    pub lock_path: PathBuf,
 }
 
 pub struct Transaction {
@@ -26,6 +27,7 @@ pub struct Transaction {
     journal: TransactionJournal,
     staged_backups: HashMap<PathBuf, Option<PathBuf>>,
     lock_path: PathBuf,
+    lock_released: bool,
 }
 
 impl Transaction {
@@ -93,6 +95,7 @@ impl Transaction {
             backup_root: backup_root.clone(),
             entries: Vec::new(),
             committed: false,
+            lock_path: lock_path.clone(),
         };
 
         let journal_path = tx_root.join("journal.json");
@@ -103,6 +106,7 @@ impl Transaction {
             journal,
             staged_backups: HashMap::new(),
             lock_path,
+            lock_released: false,
         })
     }
 
@@ -208,9 +212,9 @@ impl Transaction {
         Ok(())
     }
 
-    pub fn rollback(&self) -> Result<(), YaswitchError> {
+    pub fn rollback(&mut self) -> Result<(), YaswitchError> {
         rollback_from_journal(&self.journal)?;
-        release_lock_file(&self.lock_path)
+        self.release_lock()
     }
 
     pub fn rollback_token(&self) -> RollbackToken {
@@ -253,10 +257,12 @@ impl RollbackToken {
             })?;
 
         if journal.committed {
+            let _ = release_lock_file(&journal.lock_path);
             return Ok(());
         }
 
-        rollback_from_journal(&journal)
+        rollback_from_journal(&journal)?;
+        release_lock_file(&journal.lock_path)
     }
 }
 
@@ -355,8 +361,24 @@ fn unique_id() -> String {
 }
 
 impl Transaction {
-    fn release_lock(&self) -> Result<(), YaswitchError> {
-        release_lock_file(&self.lock_path)
+    fn release_lock(&mut self) -> Result<(), YaswitchError> {
+        if self.lock_released {
+            return Ok(());
+        }
+
+        release_lock_file(&self.lock_path)?;
+        self.lock_released = true;
+        Ok(())
+    }
+}
+
+impl Drop for Transaction {
+    fn drop(&mut self) {
+        if self.lock_released {
+            return;
+        }
+        let _ = release_lock_file(&self.lock_path);
+        self.lock_released = true;
     }
 }
 

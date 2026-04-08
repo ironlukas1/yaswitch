@@ -5,7 +5,7 @@ use yaswitch::adapters::compositor::niri::NiriAdapter;
 use yaswitch::adapters::compositor::sway::SwayAdapter;
 use yaswitch::adapters::contract::ThemeAdapter;
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 struct CompatibilityRow {
     compositor: String,
     tier: String,
@@ -68,4 +68,10 @@ fn compositor_compatibility_matrix_reports_expected_capabilities() {
     let payload = serde_json::to_string_pretty(&matrix).expect("expected matrix serialization");
     std::fs::write(&artifact, payload).expect("expected matrix artifact write");
     assert!(artifact.exists());
+
+    let fixture_path = std::path::Path::new("tests/fixtures/compatibility/matrix.json");
+    let fixture = std::fs::read_to_string(fixture_path).expect("expected compatibility fixture");
+    let fixture_matrix: Vec<CompatibilityRow> =
+        serde_json::from_str(&fixture).expect("expected valid compatibility fixture json");
+    assert_eq!(fixture_matrix.len(), matrix.len());
 }

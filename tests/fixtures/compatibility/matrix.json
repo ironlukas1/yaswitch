@@ -1,0 +1,27 @@
+[
+  {
+    "compositor": "sway",
+    "tier": "tier1",
+    "reload_supported": true
+  },
+  {
+    "compositor": "hyprland",
+    "tier": "tier1",
+    "reload_supported": true
+  },
+  {
+    "compositor": "niri",
+    "tier": "tier1",
+    "reload_supported": true
+  },
+  {
+    "compositor": "dwl",
+    "tier": "tier2",
+    "reload_supported": false
+  },
+  {
+    "compositor": "mangowm",
+    "tier": "tier2",
+    "reload_supported": false
+  }
+]

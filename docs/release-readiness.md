@@ -19,6 +19,12 @@ This checklist is required before tagging a release.
 
 - [ ] `cargo test --test compositor_compat_matrix -- --nocapture`
 - [ ] `cargo test --test compositor_tier2_safe_skip -- --nocapture`
+- [ ] `cargo run -- apply --theme tests/fixtures/themes/valid-minimal --compositor dwl --json`
+
+## Structured reporting verification
+
+- [ ] `cargo run -- apply --theme tests/fixtures/themes/valid-minimal --dry-run --json`
+- [ ] `cargo run -- apply --theme tests/fixtures/themes/valid-vscode --target vscode --dry-run --json`
 
 ## Documentation and examples verification
 
