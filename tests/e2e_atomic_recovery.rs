@@ -1,6 +1,9 @@
 use std::fs;
 use std::path::PathBuf;
 
+#[path = "support/evidence.rs"]
+mod evidence;
+
 use yaswitch::core::transaction::Transaction;
 
 #[test]
@@ -24,6 +27,14 @@ fn e2e_atomic_recovery() {
 
     let after = fs::read_to_string(&target_file).expect("expected restored target content");
     assert_eq!(after, "before-apply");
+
+    let proof = format!(
+        "atomic_recovery_ok target={} restored={}",
+        target_file.display(),
+        after
+    );
+    let _ = evidence::write_evidence("task-22-e2e-reliability.txt", &proof)
+        .expect("expected evidence write for atomic recovery");
 }
 
 fn temp_test_root(suffix: &str) -> PathBuf {

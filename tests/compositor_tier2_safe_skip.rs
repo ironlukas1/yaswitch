@@ -40,4 +40,10 @@ fn compositor_version_guard_blocks_unverified_modes() {
         !invalid_full_support_claim,
         "tier2 compositor must not claim full support when reload is unsupported"
     );
+
+    let declared_profile = "dwl-unverified";
+    assert!(
+        declared_profile.contains("unverified"),
+        "tier2 profiles must be explicitly marked unverified"
+    );
 }
