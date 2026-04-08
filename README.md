@@ -4,6 +4,23 @@
 
 Wayland-first theme manager with transactional applies, rollback safety, wallpaper-aware palette generation, and CLI-first keyboard shortcuts.
 
+## Tiered compositor support
+
+- **Tier-1 (full path):** Sway, Hyprland, Niri
+- **Tier-2 (compatibility safe-skip):** DWL, MangoWM
+
+Tier-2 targets remain non-destructive: when reload is unsupported, yaswitch reports explicit safe-skip reason codes and remediation guidance.
+
+## Example theme
+
+An executable sample is available at `examples/themes/minimal`.
+
+Validate it with:
+
+```bash
+cargo run -- validate-theme examples/themes/minimal
+```
+
 ## Current Status
 
 Implemented core through:

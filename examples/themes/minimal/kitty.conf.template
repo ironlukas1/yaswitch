@@ -1,0 +1,3 @@
+# Example kitty configuration managed by yaswitch
+background {{base00}}
+foreground {{base05}}
