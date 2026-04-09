@@ -1,0 +1,27 @@
+# Build artifacts
+/target/
+
+# Rust / editor temp
+**/*.rs.bk
+*.tmp
+*.swp
+*.swo
+
+# Runtime/debug evidence
+/.sisyphus/evidence/
+
+# Environment/secrets
+.env
+.git-credentials
+.env.*
+!.env.example
+
+# AI/planning session docs (generated workflow docs)
+/ROADMAP.md
+/PROGRESS.md
+/IDEAS.md
+/CONVERSATION_LOG.md
+
+# OS noise
+.DS_Store
+Thumbs.db

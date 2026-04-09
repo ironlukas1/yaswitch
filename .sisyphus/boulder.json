@@ -1,0 +1,32 @@
+{
+  "active_plan": "/home/lunix/Projects/yaswitch/.sisyphus/plans/yaswitch-wayland-theme-manager.md",
+  "started_at": "2026-04-03T23:51:24.708Z",
+  "session_ids": [
+    "ses_2ac80f47cffe9xcB79NfSR4AnC",
+    "ses_2aa39f659ffeuKI8jnRozIq7Iq",
+    "ses_2aa30ff4bffekaPLRKalCGNZVM",
+    "ses_295c05639ffeu6b9x9xl8D4GvZ"
+  ],
+  "plan_name": "yaswitch-wayland-theme-manager",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Bootstrap Rust workspace and project skeleton",
+      "session_id": "ses_2aa39f659ffeuKI8jnRozIq7Iq",
+      "agent": "Sisyphus-Junior",
+      "category": "unspecified-high",
+      "updated_at": "2026-04-04T00:01:39.054Z"
+    },
+    "todo:2": {
+      "task_key": "todo:2",
+      "task_label": "2",
+      "task_title": "Define ThemeSpec v1 schema and validator",
+      "session_id": "ses_2aa30ff4bffekaPLRKalCGNZVM",
+      "agent": "Sisyphus-Junior",
+      "category": "deep",
+      "updated_at": "2026-04-04T00:09:48.848Z"
+    }
+  }
+}

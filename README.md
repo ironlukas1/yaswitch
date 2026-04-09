@@ -15,6 +15,17 @@ Tier-2 targets remain non-destructive: when reload is unsupported, yaswitch repo
 
 An executable sample is available at `examples/themes/minimal`.
 
+## Run as direct executable (no cargo run)
+
+From the repository root:
+
+```bash
+./yaswitch doctor --json
+./yaswitch apply --theme examples/themes/minimal --compositor sway --dry-run --json
+```
+
+The `./yaswitch` launcher builds `target/release/yaswitch` on first run, then executes the binary directly.
+
 Validate it with:
 
 ```bash

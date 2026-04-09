@@ -1,0 +1,98 @@
+╔═════════════════════════════════════════════════════════════════════════════╗
+║         DETERMINISTIC PALETTE GENERATION — QUICK REFERENCE                  ║
+╚═════════════════════════════════════════════════════════════════════════════╝
+
+🔴 CRITICAL ISSUE IN YOUR CODE
+────────────────────────────────────────────────────────────────────────────
+Your `palette_cache_key()` uses `DefaultHasher` → generates DIFFERENT keys
+on every process run, defeating cache.
+
+Location: src/palette/generator.rs:46-49, lines 100-103
+
+
+✅ SOLUTION: Replace DefaultHasher with SHA256
+────────────────────────────────────────────────────────────────────────────
+
+BEFORE (BROKEN):
+    let mut hasher = DefaultHasher::new();
+    /home/linuxbrew/.linuxbrew/bin/snip bytes.hash(&mut hasher);
+    /home/linuxbrew/.linuxbrew/bin/snip settings.hash(&mut hasher);
+    /home/linuxbrew/.linuxbrew/bin/snip Ok(format!("{:016x}", hasher.finish()))
+
+AFTER (FIXED):
+    use sha2::{Sha256, Digest};
+    
+    /home/linuxbrew/.linuxbrew/bin/snip let mut hasher = Sha256::new();
+    /home/linuxbrew/.linuxbrew/bin/snip hasher.update(&bytes);
+    /home/linuxbrew/.linuxbrew/bin/snip hasher.update(settings.as_bytes());
+    /home/linuxbrew/.linuxbrew/bin/snip Ok(format!("v1:{:x}", hasher.finalize()))
+
+
+📋 IMPLEMENTATION CHECKLIST
+────────────────────────────────────────────────────────────────────────────
+1. Add to Cargo.toml:
+   sha2 = "0.10"
+
+2. Update src/palette/generator.rs:
+   - Replace DefaultHasher import with Sha256
+   - Rewrite palette_cache_key() (8 lines → 12 lines)
+   - Add "v1:" prefix to cache keys
+
+3. Update tests/palette_determinism.rs:
+   - Add: test_cache_key_deterministic_across_runs()
+   - Verify: same input → same key across invocations
+
+
+⚠️  HASH STABILITY CAVEATS
+────────────────────────────────────────────────────────────────────────────
+✗ DefaultHasher:
+  - Random seed per process
+  - NOT cross-run deterministic
+  - Breaks cache
+
+✓ SHA256:
+  - Fixed algorithm
+  - Deterministic across runs
+  - Standard (industry consensus)
+
+⚠️  FUTURE MIGRATIONS:
+  - Add version prefix: v1:, v2: for schema changes
+  - Store algorithm in cache metadata
+  - Use wallpaper mtime for invalidation
+
+
+🎯 WHY THIS MATTERS
+────────────────────────────────────────────────────────────────────────────
+Today:  User runs yaswitch → generates palette → caches with key X
+Tomorrow: Same user, same image → generates palette → caches with key Y
+Result:  Cache directory fills with duplicates, each time slower
+
+
+📚 REFERENCES
+────────────────────────────────────────────────────────────────────────────
+[1] Rust users forum (2025-07-26)
+    https://users.rust-lang.org/t/are-hash-and-hasher-outputs-guaranteed-to-be-stable-between-rust-versions/132304
+
+[2] deterministic_default_hasher docs (proof stdlib isn't deterministic)
+    https://docs.rs/deterministic_default_hasher/
+
+[3] SHA2 crate (recommended solution)
+    https://docs.rs/sha2/0.10/
+
+
+🔍 WHAT'S ALREADY GOOD IN YOUR CODE
+────────────────────────────────────────────────────────────────────────────
+✓ stable_hash_bytes() for internal wallpaper_hash — correct usage
+✓ Content-based hashing, not path-based — prevents duplicates
+✓ derive_palette() uses integers, not floats — deterministic
+✓ Test palette_is_deterministic_for_same_image_and_settings() — correct
+
+
+⏱️  PRIORITY
+────────────────────────────────────────────────────────────────────────────
+1. Replace DefaultHasher (BLOCKING cache effectiveness)
+2. Add version prefix (FUTURE-PROOFING)
+3. Add cross-run test (VERIFICATION)
+4. Document algorithm (MAINTENANCE)
+
+

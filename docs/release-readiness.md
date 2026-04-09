@@ -8,6 +8,7 @@ This checklist is required before tagging a release.
 - [ ] `cargo clippy --workspace --all-targets --all-features -- -D warnings`
 - [ ] `cargo build --workspace --all-features`
 - [ ] `cargo test --workspace --all-features`
+- [ ] `./yaswitch doctor --json`
 
 ## Reliability verification
 
